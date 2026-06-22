@@ -15,11 +15,24 @@ function ListingsContainer() {
     })))
   },[])
 
+  function onFavorite(id) {
+    setListings(listings.map(listing => {
+      if(listing.id === id) {
+        return {
+          ...listing,
+          favorite: !listing.favorite
+        }
+      } else {
+        return listing
+      }
+    }))
+  }
+
   console.log(listings)
   return (
     <main>
       <ul className="cards">
-        {listings.map(listing => <ListingCard description={listing.description} image={listing.image} location={listing.location} favorite={listing.favorite} key={listing.id}/>)}
+        {listings.map(listing => <ListingCard onFavorite={onFavorite} description={listing.description} image={listing.image} location={listing.location} favorite={listing.favorite} key={listing.id} id={listing.id}/>)}
       </ul>
     </main>
   );
