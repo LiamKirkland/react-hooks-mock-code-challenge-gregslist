@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ListingCard from "./ListingCard";
 import { SearchContext } from "../context/serachTerm";
 
-function ListingsContainer() {
+function ListingsContainer({alphaSort}) {
   const [listings, setListings] = useState([])
   const [searchTerm, setSearchTerm] = useContext(SearchContext)
 
@@ -38,7 +38,8 @@ function ListingsContainer() {
     .then(setListings(listings.filter(listing => listing.id !== id)))
   }
 
-  const listingsToDisplay = searchTerm ? listings.filter(listing => listing.description.includes(searchTerm)) : listings
+  const listingSearch = searchTerm ? listings.filter(listing => listing.description.includes(searchTerm)) : listings
+  const listingsToDisplay = alphaSort ? listingSearch.toSorted((a,b) => a.location.localeCompare(b.location)) : listingSearch
   return (
     <main>
       <ul className="cards">
