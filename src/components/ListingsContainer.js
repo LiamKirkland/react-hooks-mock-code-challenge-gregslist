@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ListingCard from "./ListingCard";
+import { SearchContext } from "../context/serachTerm";
 
 function ListingsContainer() {
   const [listings, setListings] = useState([])
+  const [searchTerm, setSearchTerm] = useContext(SearchContext)
 
   useEffect(() => {
     fetch("http://localhost:6001/listings")
@@ -36,11 +38,11 @@ function ListingsContainer() {
     .then(setListings(listings.filter(listing => listing.id !== id)))
   }
 
-  console.log(listings)
+  const listingsToDisplay = searchTerm ? listings.filter(listing => listing.description.includes(searchTerm)) : listings
   return (
     <main>
       <ul className="cards">
-        {listings.map(listing => <ListingCard onFavorite={onFavorite} description={listing.description} image={listing.image} location={listing.location} favorite={listing.favorite} key={listing.id} id={listing.id} onDelete={onDelete}/>)}
+        {listingsToDisplay.map(listing => <ListingCard onFavorite={onFavorite} description={listing.description} image={listing.image} location={listing.location} favorite={listing.favorite} key={listing.id} id={listing.id} onDelete={onDelete}/>)}
       </ul>
     </main>
   );
