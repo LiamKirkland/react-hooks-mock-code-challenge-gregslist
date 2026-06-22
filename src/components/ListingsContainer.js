@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ListingCard from "./ListingCard";
 import { SearchContext } from "../context/serachTerm";
 
-function ListingsContainer({alphaSort}) {
+function ListingsContainer({alphaSort, addItem}) {
   const [listings, setListings] = useState([])
   const [searchTerm, setSearchTerm] = useContext(SearchContext)
 
@@ -16,6 +16,17 @@ function ListingsContainer({alphaSort}) {
       }
     })))
   },[])
+
+  useEffect(() => {
+    fetch("http://localhost:6001/listings")
+    .then(res => res.json())
+    .then(data => setListings(data.map(listing => {
+      return {
+        ...listing,
+        favorite: false
+      }
+    })))
+  },[addItem])
 
   function onFavorite(id) {
     setListings(listings.map(listing => {

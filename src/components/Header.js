@@ -1,7 +1,7 @@
 import React from "react";
 import Search from "./Search";
 
-function Header({alphaSort, setAlphaSort}) {
+function Header({alphaSort, setAlphaSort, addItem, setAddItem}) {
   function handleCheck() {
     setAlphaSort(!alphaSort)
   }
@@ -17,6 +17,7 @@ function Header({alphaSort, setAlphaSort}) {
       <Search />
       <label>Alphabetic Sort: </label>
       <input type="checkbox" onChange={handleCheck} checked={alphaSort}></input>
+      <button onClick={() => setAddItem(!addItem)}>{addItem ? "Cancel" : "Add Listing"}</button>
     </header>
   );
 }
