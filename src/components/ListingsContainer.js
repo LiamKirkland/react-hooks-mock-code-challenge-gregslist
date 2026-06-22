@@ -28,11 +28,19 @@ function ListingsContainer() {
     }))
   }
 
+  function onDelete(id) {
+    fetch(`http://localhost:6001/listings/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+    })
+    .then(setListings(listings.filter(listing => listing.id !== id)))
+  }
+
   console.log(listings)
   return (
     <main>
       <ul className="cards">
-        {listings.map(listing => <ListingCard onFavorite={onFavorite} description={listing.description} image={listing.image} location={listing.location} favorite={listing.favorite} key={listing.id} id={listing.id}/>)}
+        {listings.map(listing => <ListingCard onFavorite={onFavorite} description={listing.description} image={listing.image} location={listing.location} favorite={listing.favorite} key={listing.id} id={listing.id} onDelete={onDelete}/>)}
       </ul>
     </main>
   );
